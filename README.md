@@ -1,6 +1,6 @@
 # Web-scraper
 
-# Scraper HTML with Selenium
+# Scraper with Selenium
 
 This project is a web scraper that collects data from websites, using Python and Selenium.
 

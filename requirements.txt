@@ -1,0 +1,6 @@
+Requirements
+
+    Python 3.x
+    Selenium
+    BeautifulSoup4
+    Google Chrome with corresponding version of ChromeDriver

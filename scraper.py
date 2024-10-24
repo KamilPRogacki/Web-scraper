@@ -25,11 +25,10 @@ def filter_html_content(soup):
     allowed_tags = ['h2', 'h3', 'p', 'strong']
     
     # Znajdź wszystkie tagi
-    for tag in soup.find_all(True):  # True oznacza, że szukamy wszystkich tagów
+    for tag in soup.find_all(True):  
         if tag.name not in allowed_tags:
-            tag.unwrap()  # Usuwamy tag, ale zachowujemy zawartość
+            tag.unwrap() 
         else:
-            # Usuń wszystkie atrybuty z tagów <h2>, <h3>, <p>, <strong>
             tag.attrs = {}
 
     return str(soup)
@@ -40,20 +39,18 @@ def scrape_article(url):
         response = requests.get(url)
         soup = BeautifulSoup(response.content, 'html.parser')
         
-        # Sprawdzenie, czy strona poprawnie załadowana
         if not soup.find('article'):
             raise Exception("No article found, using Selenium WebDriver.")
         
-        # Pobranie tytułu artykułu
         title = soup.find('h1').get_text(strip=True) if soup.find('h1') else "No title found"
         
-        # Pobranie kategorii artykułu (może być w różnych miejscach, zależy od strony)
+        
         category = soup.find('meta', {'property': 'article:section'})['content'] if soup.find('meta', {'property': 'article:section'}) else "No category found"
         
-        # Pobranie daty publikacji
+        
         date = soup.find('time').get_text(strip=True) if soup.find('time') else "No date found"
         
-        # Pobranie treści artykułu, filtrowanie HTML
+        
         article_content = soup.find('article')
         filtered_content = filter_html_content(article_content) if article_content else "No content found"
         
@@ -75,16 +72,16 @@ def scrape_article(url):
 
         soup = BeautifulSoup(driver.page_source, 'html.parser')
         
-        # Pobranie tytułu artykułu
+        
         title = soup.find('h1').get_text(strip=True) if soup.find('h1') else "No title found"
         
-        # Pobranie kategorii artykułu
+        
         category = soup.find('meta', {'property': 'article:section'})['content'] if soup.find('meta', {'property': 'article:section'}) else "No category found"
         
-        # Pobranie daty publikacji
+        
         date = soup.find('time').get_text(strip=True) if soup.find('time') else "No date found"
         
-        # Pobranie treści artykułu, filtrowanie HTML
+        
         article_content = soup.find('article')
         filtered_content = filter_html_content(article_content) if article_content else "No content found"
         
@@ -124,6 +121,6 @@ if __name__ == "__main__":
         article_data = scrape_article(url)
         scraped_data.append(article_data)
     
-    # Zapis wyników do pliku JSON
+    
     save_to_json(scraped_data)
     print("Scraping completed and data saved to response.json.")
